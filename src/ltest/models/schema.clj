@@ -1,6 +1,7 @@
 (ns ltest.models.schema
-  (:require [clojure.java.jdbc :as sql]
-            [noir.io :as io]))
+  (:use [lobos.core :only (defcommand migrate)])
+  (:require [noir.io :as io]
+            [lobos.migration :as lm]))
 
 (def db-store "site.db")
 
@@ -11,12 +12,13 @@
               :password ""
               :naming {:keys clojure.string/upper-case
                        :fields clojure.string/upper-case}})
-(defn initialized?
-  "checks to see if the database schema is present"
-  []
-  (.exists (new java.io.File (str (io/resource-path) db-store ".h2.db"))))
 
-(defn create-tables
-  "creates the database tables used by the application"
+(defcommand pending-migrations []
+  (lm/pending-migrations db-spec sname))
+
+(defn actualized?
+  "checks if there aren't pending migrations"
   []
-  (create-users-table))
+  (empty? (pending-migrations)))
+
+(def actualize migrate)
