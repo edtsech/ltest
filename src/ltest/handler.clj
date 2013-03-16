@@ -15,8 +15,8 @@
   "runs when the application starts and checks if the database
    schema exists, calls schema/create-tables if not."
   []
-  (if-not (schema/initialized?)
-    (schema/create-tables)))
+  (if-not (schema/actualized?)
+    (schema/actualize)))
 
 (defn destroy [] (println "shutting down..."))
 
