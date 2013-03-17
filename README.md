@@ -1,6 +1,7 @@
 # ltest
 
-FIXME
+Example project which shows how to manage database migrations
+in Luminus with Lobos library.
 
 ## Prerequisites
 
